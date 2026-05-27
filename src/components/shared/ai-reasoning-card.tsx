@@ -1,3 +1,5 @@
+"use client";
+
 import { Brain, CheckCircle2, HelpCircle, Shield, Sparkles } from "lucide-react";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

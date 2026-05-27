@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AccountCard } from "@/components/accounts/account-card";
 import { useAppStore } from "@/hooks/use-app-store";
+import { accountRequiresAttention } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const FILTER_LABELS: Record<string, string> = {
+  attention: "Accounts requiring attention",
   review: "Needs human review",
   duplicate: "Duplicate outreach risk",
   stalled: "Stalled opportunities",
@@ -23,6 +25,8 @@ export function AccountsList() {
 
   const filtered = useMemo(() => {
     switch (filter) {
+      case "attention":
+        return accounts.filter(accountRequiresAttention);
       case "review":
         return accounts.filter(
           (a) => a.lifecycleStatus === "needs_human_review"
@@ -52,6 +56,7 @@ export function AccountsList() {
 
   const filters = [
     { id: null, label: "All" },
+    { id: "attention", label: "Attention" },
     { id: "review", label: "Review" },
     { id: "duplicate", label: "Duplicates" },
     { id: "followup", label: "Follow-ups" },

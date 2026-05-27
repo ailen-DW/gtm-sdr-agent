@@ -1,3 +1,5 @@
+"use client";
+
 import { AlertTriangle, Calendar, TrendingUp, PauseCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getAccountIndicators } from "@/lib/agent/insights";

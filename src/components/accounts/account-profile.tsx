@@ -8,7 +8,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { AccountIndicators } from "@/components/shared/account-indicators";
 import { AIReasoningCard } from "@/components/shared/ai-reasoning-card";
 import { DuplicateWarning } from "@/components/shared/duplicate-warning";
-import { LifecycleStepper } from "@/components/shared/lifecycle-stepper";
+import { CustomerLifecycleTimeline } from "@/components/accounts/customer-lifecycle-timeline";
 import { OutreachTimeline } from "@/components/shared/outreach-timeline";
 import { ProductFitPanel } from "@/components/shared/product-fit-panel";
 import { LifecycleBadge, CRMBadge } from "@/components/shared/status-badge";
@@ -70,17 +70,13 @@ export function AccountProfile({ account }: { account: Institution }) {
           )}
         </div>
 
-        <div className="mt-6 border-t border-slate-100 pt-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Lifecycle progress
-          </p>
-          <LifecycleStepper current={account.lifecycleStatus} />
-        </div>
       </div>
 
       {account.duplicateRisk && (
         <DuplicateWarning risk={account.duplicateRisk} />
       )}
+
+      <CustomerLifecycleTimeline account={account} />
 
       <AIReasoningCard insight={insight} />
 

@@ -197,6 +197,7 @@ export interface MarketingInsight {
 }
 
 export interface DashboardMetrics {
+  accountsRequiringAttention: number;
   newProspects: number;
   needsReview: number;
   existingCustomers: number;

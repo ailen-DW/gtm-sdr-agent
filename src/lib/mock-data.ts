@@ -481,11 +481,21 @@ export const MOCK_MARKETING_INSIGHTS: MarketingInsight[] = [
   },
 ];
 
+export function accountRequiresAttention(account: Institution): boolean {
+  return (
+    Boolean(account.followUpDue) ||
+    account.isStalled ||
+    account.lifecycleStatus === "needs_human_review" ||
+    (account.duplicateRisk != null && account.duplicateRisk.severity !== "low")
+  );
+}
+
 export function getDashboardMetrics(
   accounts: Institution[],
   actions: RecommendedAction[]
 ): DashboardMetrics {
   return {
+    accountsRequiringAttention: accounts.filter(accountRequiresAttention).length,
     newProspects: accounts.filter((a) => a.lifecycleStatus === "new_prospect")
       .length,
     needsReview: accounts.filter(

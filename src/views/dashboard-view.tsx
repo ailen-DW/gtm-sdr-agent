@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { TodayPriorities } from "@/components/dashboard/today-priorities";
+import { AccountsAttentionKpi } from "@/components/dashboard/accounts-attention-kpi";
 import { MetricCards } from "@/components/dashboard/metric-cards";
 import { AccountCard } from "@/components/accounts/account-card";
 import { ActionQueueItem } from "@/components/actions/action-queue-item";
@@ -62,6 +63,8 @@ export function DashboardView() {
         duplicates={duplicates}
         upsells={upsells}
       />
+
+      <AccountsAttentionKpi count={metrics.accountsRequiringAttention} />
 
       <SectionHeader
         title="Pipeline snapshot"
