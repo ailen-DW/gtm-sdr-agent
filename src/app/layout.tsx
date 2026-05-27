@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { AppShell } from "@/components/layout/app-shell";
 
 export const metadata: Metadata = {
-  title: "GTM SDR Agent | Higher Ed",
+  title: "SDR Command Center",
   description:
-    "Internal AI GTM/SDR agent for prospecting, outreach, and CRM intelligence",
+    "AI-assisted outbound execution and customer journey visibility.",
 };
 
 export default function RootLayout({

@@ -27,9 +27,9 @@ const icons = {
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: "LayoutDashboard" as const },
-  { href: "/prospect-discovery", label: "Prospect Discovery", icon: "Search" as const },
+  { href: "/prospect-discovery", label: "Lead Discovery", icon: "Search" as const },
   { href: "/accounts", label: "Accounts", icon: "Building2" as const },
-  { href: "/action-queue", label: "Action Queue", icon: "ListChecks" as const },
+  { href: "/action-queue", label: "Approvals", icon: "ListChecks" as const },
   { href: "/outreach-drafts", label: "Outreach Drafts", icon: "Mail" as const },
   { href: "/marketing-insights", label: "Marketing Insights", icon: "Lightbulb" as const },
   { href: "/settings", label: "Settings", icon: "Settings" as const },
@@ -47,8 +47,10 @@ export function Sidebar() {
           <Sparkles className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-slate-900">GTM Agent</p>
-          <p className="text-xs text-slate-500">Higher Ed SDR</p>
+          <p className="text-sm font-semibold text-slate-900">SDR Command Center</p>
+          <p className="text-xs text-slate-500">
+            AI-assisted outbound execution and customer journey visibility.
+          </p>
         </div>
       </div>
 

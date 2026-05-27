@@ -1,10 +1,13 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { TodayPriorities } from "@/components/dashboard/today-priorities";
 import { AccountsAttentionKpi } from "@/components/dashboard/accounts-attention-kpi";
 import { MetricCards } from "@/components/dashboard/metric-cards";
+import { SdrCompactQueue } from "@/components/sdr/sdr-compact-queue";
+import { buildSdrQueue } from "@/lib/sdr/mock-data";
 import { AccountCard } from "@/components/accounts/account-card";
 import { ActionQueueItem } from "@/components/actions/action-queue-item";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -38,11 +41,16 @@ export function DashboardView() {
     )
   );
 
+  const sdrQueue = useMemo(
+    () => buildSdrQueue(accounts, actions),
+    [accounts, actions]
+  );
+
   return (
     <>
       <PageHeader
         title="Pipeline Dashboard"
-        description="Your command center for prospecting, approvals, and customer journey visibility. The AI recommends — you decide."
+        description="SDR Command Center — AI-assisted outbound execution and customer journey visibility. You approve before anything sends."
         action={
           <Link href="/action-queue">
             <Button>
@@ -65,6 +73,19 @@ export function DashboardView() {
       />
 
       <AccountsAttentionKpi count={metrics.accountsRequiringAttention} />
+
+      <section className="mb-6">
+        <SectionHeader
+          title="SDR action queue"
+          description="Your outbound execution priorities"
+          action={
+            <Link href="/action-queue" className="text-sm text-brand-600 hover:underline">
+              Open approvals →
+            </Link>
+          }
+        />
+        <SdrCompactQueue items={sdrQueue} />
+      </section>
 
       <SectionHeader
         title="Pipeline snapshot"

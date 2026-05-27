@@ -7,6 +7,11 @@ import { AccountSummaryGrid } from "@/components/accounts/account-summary-grid";
 import { AccountIndicators } from "@/components/shared/account-indicators";
 import { DuplicateWarning } from "@/components/shared/duplicate-warning";
 import { CustomerLifecycleTimeline } from "@/components/accounts/customer-lifecycle-timeline";
+import { SdrAccountWorkspace } from "@/components/sdr/sdr-account-workspace";
+import { getAccountOperationalSummary } from "@/lib/lifecycle/account-journey-summary";
+import { getDiscoveryLeads } from "@/lib/sdr/mock-data";
+import { Badge } from "@/components/ui/badge";
+import { useMemo } from "react";
 import { LifecycleBadge, CRMBadge } from "@/components/shared/status-badge";
 import { ActionQueueItem } from "@/components/actions/action-queue-item";
 import { useAppStore } from "@/hooks/use-app-store";
@@ -17,6 +22,10 @@ export function AccountProfile({ account }: { account: Institution }) {
   const actions = allActions.filter((a) => a.accountId === account.id);
   const pendingActions = actions.filter((a) => a.approvalStatus === "pending");
   const drafts = allDrafts.filter((d) => d.accountId === account.id);
+  const linkedLead = useMemo(
+    () => getDiscoveryLeads().find((l) => l.accountId === account.id),
+    [account.id]
+  );
 
   return (
     <div className="space-y-4">
@@ -59,6 +68,20 @@ export function AccountProfile({ account }: { account: Institution }) {
       {account.duplicateRisk && <DuplicateWarning risk={account.duplicateRisk} />}
 
       <AccountSummaryGrid account={account} />
+
+      {linkedLead && (
+        <p className="rounded-lg border border-brand-100 bg-brand-50/40 px-3 py-2 text-xs text-slate-700">
+          <span className="font-medium text-brand-800">Discovery:</span>{" "}
+          {linkedLead.whySelected}
+          <span className="ml-2">
+            <Badge variant="info" className="text-[10px]">
+              {linkedLead.discoverySource} · {linkedLead.confidenceScore}%
+            </Badge>
+          </span>
+        </p>
+      )}
+
+      <SdrAccountWorkspace account={account} />
 
       <CustomerLifecycleTimeline account={account} />
 
