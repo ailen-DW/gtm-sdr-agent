@@ -14,6 +14,9 @@ type StageTemplate = Omit<
   | "sourceBadges"
   | "responsibleOwner"
   | "nextOwnerAction"
+  | "pendingClientActions"
+  | "internalTasks"
+  | "relatedDocuments"
 >;
 
 export const STAGE_TEMPLATES: Record<CustomerJourneyStageId, StageTemplate> = {

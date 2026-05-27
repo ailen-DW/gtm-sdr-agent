@@ -5,7 +5,8 @@ export type SourceSystem =
   | "ClickUp"
   | "Gmail"
   | "LinkedIn"
-  | "Calendar";
+  | "Calendar"
+  | "Basecamp";
 
 export type ActionPriority = "high" | "medium" | "low";
 
@@ -68,6 +69,19 @@ export interface JourneyActivity {
   event: string;
   actor?: string;
   source?: SourceSystem;
+}
+
+export interface OperationalTask {
+  id: string;
+  label: string;
+  status: "pending" | "in_progress" | "done";
+  assignee?: string;
+}
+
+export interface StageDocument {
+  title: string;
+  system: SourceSystem;
+  reference: string;
 }
 
 export interface StageIntelligenceBundle {

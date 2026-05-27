@@ -3,6 +3,7 @@
 import type { Institution } from "../types";
 import { STAGE_MEETING_SUMMARIES } from "./meeting-summaries";
 import { STAGE_INTELLIGENCE } from "./stage-intelligence";
+import { STAGE_OPERATIONS } from "./stage-operations";
 import { STAGE_OWNERSHIP } from "./stage-ownership";
 import { STAGE_TEMPLATES } from "./stage-templates";
 import {
@@ -47,6 +48,9 @@ function personalize(
     aiInsight: { ...base.aiInsight, signalsDetected: [...base.aiInsight.signalsDetected] },
     relatedActivity: { ...base.relatedActivity },
     sourceBadges: [...base.sourceBadges],
+    pendingClientActions: [...base.pendingClientActions],
+    internalTasks: base.internalTasks.map((t) => ({ ...t })),
+    relatedDocuments: base.relatedDocuments.map((d) => ({ ...d })),
   };
 
   if (stageId === "outreach_active" && account.id === "acc_001") {
@@ -299,6 +303,7 @@ export function getAccountJourney(account: Institution): AccountJourneyState {
       const template = STAGE_TEMPLATES[def.id];
       const intelligence = STAGE_INTELLIGENCE[def.id];
       const ownership = STAGE_OWNERSHIP[def.id];
+      const operations = STAGE_OPERATIONS[def.id];
       const status = resolveStatus(index, currentIndex, def.id, account);
       const base: CustomerJourneyStageDetail = {
         stageId: def.id,
@@ -307,6 +312,7 @@ export function getAccountJourney(account: Institution): AccountJourneyState {
         ...template,
         ...intelligence,
         ...ownership,
+        ...operations,
         meetingSummaries: STAGE_MEETING_SUMMARIES[def.id] ?? [],
         completedAt:
           status === "completed"

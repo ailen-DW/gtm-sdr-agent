@@ -13,14 +13,19 @@ import { ACTION_TYPE_LABELS } from "@/lib/constants";
 import { updateAction } from "@/lib/store/app-store";
 import { getAccount } from "@/lib/store/app-store";
 import type { RecommendedAction } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 export function ActionQueueItem({
   action,
   institutionName,
+  compactReasoning = false,
+  hideInstitutionLink = false,
 }: {
   action: RecommendedAction;
   institutionName: string;
+  /** Shorter context on account detail — no full reasoning card */
+  compactReasoning?: boolean;
+  hideInstitutionLink?: boolean;
 }) {
   const [note, setNote] = useState("");
   const [expanded, setExpanded] = useState(action.approvalStatus === "pending");
@@ -62,16 +67,20 @@ export function ActionQueueItem({
         isPending ? "border-amber-200 ring-1 ring-amber-100" : "border-slate-200"
       }
     >
-      <CardBody className="space-y-4">
-        <div className="flex flex-wrap items-start justify-between gap-3">
+      <CardBody className={compactReasoning ? "space-y-2 py-3" : "space-y-4"}>
+        <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <Link
-                href={`/accounts/${action.accountId}`}
-                className="font-semibold text-slate-900 hover:text-brand-600"
-              >
-                {institutionName}
-              </Link>
+              {hideInstitutionLink ? (
+                <span className="font-semibold text-slate-900">{action.title}</span>
+              ) : (
+                <Link
+                  href={`/accounts/${action.accountId}`}
+                  className="font-semibold text-slate-900 hover:text-brand-600"
+                >
+                  {institutionName}
+                </Link>
+              )}
               <PriorityBadge priority={action.priority} />
               {isPending ? (
                 <Badge variant="warning">Awaiting your approval</Badge>
@@ -85,9 +94,11 @@ export function ActionQueueItem({
                 </Badge>
               )}
             </div>
-            <p className="mt-1 text-sm font-medium text-slate-800">
-              {action.title}
-            </p>
+            {!hideInstitutionLink && (
+              <p className="mt-1 text-sm font-medium text-slate-800">
+                {action.title}
+              </p>
+            )}
             <p className="mt-0.5 text-xs text-slate-500">
               {ACTION_TYPE_LABELS[action.type]}
               {action.dueDate && ` · Due ${formatDate(action.dueDate)}`}
@@ -100,10 +111,16 @@ export function ActionQueueItem({
           </div>
         </div>
 
-        <AIReasoningCard insight={insight} compact />
+        {compactReasoning ? (
+          <p className="text-xs leading-relaxed text-slate-600 line-clamp-2">
+            {action.rationale}
+          </p>
+        ) : (
+          <AIReasoningCard insight={insight} compact />
+        )}
 
         {isPending && (
-          <div className="border-t border-slate-100 pt-4">
+          <div className={cn("border-t border-slate-100", compactReasoning ? "pt-2" : "pt-4")}>
             {!expanded ? (
               <button
                 type="button"

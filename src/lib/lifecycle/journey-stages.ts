@@ -2,7 +2,9 @@ import type {
   JourneyActivity,
   JourneyMeetingSummary,
   JourneySourceReference,
+  OperationalTask,
   StageAiInsight,
+  StageDocument,
   StageRecommendedAction,
   StageRelatedActivity,
   SourceSystem,
@@ -17,7 +19,9 @@ export type {
   JourneySourceReference,
   RiskCategory,
   SourceSystem,
+  OperationalTask,
   StageAiInsight,
+  StageDocument,
   StageIntelligenceBundle,
   StageRecommendedAction,
   StageRelatedActivity,
@@ -62,6 +66,9 @@ export interface CustomerJourneyStageDetail {
   responsibleOwner: string;
   /** Headline action for the accountable owner */
   nextOwnerAction: string;
+  pendingClientActions: string[];
+  internalTasks: OperationalTask[];
+  relatedDocuments: StageDocument[];
   aiInsight: StageAiInsight;
   recommendedActions: StageRecommendedAction[];
   risks: StageRiskBlocker[];
